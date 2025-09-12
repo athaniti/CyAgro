@@ -1,0 +1,138 @@
+{
+  "info": {
+    "name": "CyAgro Demo API",
+    "_postman_id": "c7a4e9d0-1234-5678-9abc-def123456789",
+    "description": "Postman collection για το CyAgro Demo API (Departments, Land Parcels, Cultivation Groups, Cultivations, Varieties, Harmful Causes).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Departments",
+      "item": [
+        {
+          "name": "Get All Departments",
+          "request": { "method": "GET", "url": "http://127.0.0.1:8000/departments" }
+        },
+        {
+          "name": "Get Department by ID",
+          "request": { "method": "GET", "url": "http://127.0.0.1:8000/departments/1" }
+        },
+        {
+          "name": "Create Department",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Νέο Τμήμα\",\n  \"code\": \"DEP99\"\n}" },
+            "url": "http://127.0.0.1:8000/departments"
+          }
+        },
+        {
+          "name": "Update Department",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Updated Department\",\n  \"code\": \"DEP99\"\n}" },
+            "url": "http://127.0.0.1:8000/departments/1"
+          }
+        },
+        {
+          "name": "Delete Department",
+          "request": { "method": "DELETE", "url": "http://127.0.0.1:8000/departments/1" }
+        }
+      ]
+    },
+    {
+      "name": "Land Parcels",
+      "item": [
+        {
+          "name": "Get All Land Parcels",
+          "request": { "method": "GET", "url": "http://127.0.0.1:8000/land_parcels" }
+        },
+        {
+          "name": "Create Land Parcel",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"department_id\": 1,\n  \"region\": \"Λεμεσός\",\n  \"community\": \"Κοιλάνι\",\n  \"block\": \"Α1\",\n  \"parcel_number\": \"789\",\n  \"description\": \"Δοκιμαστικό τεμάχιο\",\n  \"ownership\": \"ownership\",\n  \"status\": \"pending\"\n}"
+            },
+            "url": "http://127.0.0.1:8000/land_parcels"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cultivation Groups",
+      "item": [
+        { "name": "Get All Groups", "request": { "method": "GET", "url": "http://127.0.0.1:8000/groups" } },
+        {
+          "name": "Create Group",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Αμπέλια\",\n  \"code\": \"GR03\",\n  \"accounting_code\": \"16-3\",\n  \"koap_code\": \"KOAP003\"\n}"
+            },
+            "url": "http://127.0.0.1:8000/groups"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cultivations",
+      "item": [
+        { "name": "Get All Cultivations", "request": { "method": "GET", "url": "http://127.0.0.1:8000/cultivations" } },
+        {
+          "name": "Create Cultivation",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"group_id\": 1,\n  \"name\": \"Πατάτα\",\n  \"code\": \"CULT99\",\n  \"type\": \"annual\",\n  \"coverage\": \"full\",\n  \"full_price\": 100.00,\n  \"basic_price\": 60.00\n}"
+            },
+            "url": "http://127.0.0.1:8000/cultivations"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Varieties",
+      "item": [
+        { "name": "Get All Varieties", "request": { "method": "GET", "url": "http://127.0.0.1:8000/varieties" } },
+        {
+          "name": "Create Variety",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cultivation_id\": 1,\n  \"name\": \"Κοντόχοντρο Πατάτας\",\n  \"unit\": \"area\"\n}"
+            },
+            "url": "http://127.0.0.1:8000/varieties"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Harmful Causes",
+      "item": [
+        { "name": "Get All Harmful Causes", "request": { "method": "GET", "url": "http://127.0.0.1:8000/harmful_causes" } },
+        {
+          "name": "Create Harmful Cause",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Πλημμύρα\"\n}"
+            },
+            "url": "http://127.0.0.1:8000/harmful_causes"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+/* Βασικά reset */
+html, body {
+  margin: 0;
+  height: 100%;
+  font-family: "Inter", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: #f5f7fa;
+  color: #333;
+}
+
+/* Toolbar */
+.app-toolbar {
+  background: linear-gradient(90deg, #1976d2, #2196f3);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  padding: 0 16px;
+
+  .logo {
+    font-weight: 600;
+    font-size: 1.2rem;
+    letter-spacing: -0.5px;
+  }
+
+  .spacer {
+    flex: 1 1 auto;
+  }
+
+  a[mat-button] {
+    font-weight: 500;
+    margin: 0 4px;
+    transition: color 0.2s ease-in-out;
+
+    &.active-link {
+      color: #ffeb3b; /* highlight */
+      font-weight: 600;
+    }
+  }
+
+  button {
+    margin-left: 16px;
+    border-radius: 20px;
+    text-transform: none;
+  }
+}
+
+/* Κύριο περιεχόμενο */
+.main-container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}

@@ -1,0 +1,24 @@
+<div style="display:flex; justify-content:center; margin-top:80px;">
+    <mat-card style="width:360px; padding:24px;">
+      <h2>Login</h2>
+  
+      <form [formGroup]="form" (ngSubmit)="login()" style="display:flex; flex-direction:column; gap:16px;">
+        <mat-form-field appearance="outline">
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="username">
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="password">
+        </mat-form-field>
+  
+        <button mat-raised-button color="primary" type="submit">Login</button>
+      </form>
+  
+      <div *ngIf="errorMsg" style="color:red; margin-top:8px;">
+        {{errorMsg}}
+      </div>
+    </mat-card>
+  </div>
+  

@@ -1,0 +1,16 @@
+<mat-toolbar color="primary" class="app-toolbar">
+    <span class="logo">🌱 CyAgro</span>
+    <span class="spacer"></span>
+  
+    <a mat-button routerLink="/groups" routerLinkActive="active-link">Ομάδες</a>
+    <a mat-button routerLink="/cultivations" routerLinkActive="active-link">Καλλιέργειες</a>
+    <a mat-button routerLink="/varieties" routerLinkActive="active-link">Ποικιλίες</a>
+    <a mat-button routerLink="/harmful-causes" routerLinkActive="active-link">Ζημιογόνα</a>
+  
+    <button mat-stroked-button color="accent" (click)="logout()">Logout</button>
+  </mat-toolbar>
+  
+  <div class="main-container">
+    <router-outlet></router-outlet>
+  </div>
+  

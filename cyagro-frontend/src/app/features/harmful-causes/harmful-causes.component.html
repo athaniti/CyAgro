@@ -1,0 +1,36 @@
+<h2>Ζημιογόνα</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()" style="display:flex; gap:12px; flex-wrap:wrap; max-width:600px;">
+  <mat-form-field>
+    <mat-label>Όνομα</mat-label>
+    <input matInput formControlName="name">
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit">
+    {{ form.value.id ? 'Ενημέρωση' : 'Προσθήκη' }}
+  </button>
+  <button mat-stroked-button type="button" (click)="clear()">Καθαρισμός</button>
+</form>
+
+<table mat-table [dataSource]="harmfuls" class="mat-elevation-z8 modern-table full-width-table">
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef>ID</th>
+    <td mat-cell *matCellDef="let r">{{r.id}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Όνομα</th>
+    <td mat-cell *matCellDef="let r">{{r.name}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Ενέργειες</th>
+    <td mat-cell *matCellDef="let r">
+      <button mat-icon-button (click)="edit(r)" color="primary"><mat-icon>edit</mat-icon></button>
+      <button mat-icon-button (click)="delete(r.id)" color="warn"><mat-icon>delete</mat-icon></button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayed"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayed;"></tr>
+</table>
