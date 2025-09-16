@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bcrypt Hash Checker</title>
+    <script src="https://cdn.jsdelivr.net/npm/bcryptjs@2.4.3/dist/bcrypt.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .container { max-width: 600px; margin: 0 auto; }
+        .hash-box { background: #f5f5f5; padding: 15px; border-radius: 5px; word-break: break-all; margin: 10px 0; }
+        .result { margin: 10px 0; padding: 10px; border-radius: 4px; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .testing { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        button { padding: 10px 15px; margin: 5px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bcrypt Hash Password Checker</h1>
+        
+        <p><strong>Hash to check:</strong></p>
+        <div class="hash-box">$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj6dWOr9wG/W</div>
+        
+        <button onclick="checkCommonPasswords()">Check Common Passwords</button>
+        <button onclick="checkCustomPassword()">Check Custom Password</button>
+        
+        <input type="text" id="customPassword" placeholder="Enter password to test" style="margin: 10px 0; padding: 8px; width: 200px;">
+        
+        <div id="results"></div>
+    </div>
+
+    <script>
+        const targetHash = '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj6dWOr9wG/W';
+        
+        const commonPasswords = [
+            'password',
+            'admin', 
+            'test',
+            'demo',
+            '123456',
+            'password123',
+            'admin123',
+            'test123',
+            'demo123',
+            'user',
+            'user123',
+            'secret',
+            'qwerty',
+            'abc123',
+            'welcome',
+            'login',
+            'pass',
+            'root',
+            'farmer',
+            'cultivation'
+        ];
+
+        function showResult(message, type = 'testing') {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML += `<div class="result ${type}">${message}</div>`;
+            resultsDiv.scrollTop = resultsDiv.scrollHeight;
+        }
+
+        async function checkPassword(password) {
+            try {
+                const isMatch = await bcrypt.compare(password, targetHash);
+                return isMatch;
+            } catch (error) {
+                console.error('Error:', error);
+                return false;
+            }
+        }
+
+        async function checkCommonPasswords() {
+            document.getElementById('results').innerHTML = '<div class="result testing">Starting password check...</div>';
+            
+            for (const password of commonPasswords) {
+                showResult(`Testing: "${password}"...`);
+                
+                const isMatch = await checkPassword(password);
+                
+                if (isMatch) {
+                    showResult(`🎉 FOUND! The password is: "${password}"`, 'success');
+                    return;
+                }
+                
+                // Small delay to show progress
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+            
+            showResult('❌ No match found in common passwords', 'error');
+        }
+
+        async function checkCustomPassword() {
+            const password = document.getElementById('customPassword').value;
+            if (!password) {
+                showResult('Please enter a password to test', 'error');
+                return;
+            }
+            
+            showResult(`Testing custom password: "${password}"...`);
+            
+            const isMatch = await checkPassword(password);
+            
+            if (isMatch) {
+                showResult(`🎉 MATCH! The password "${password}" is correct!`, 'success');
+            } else {
+                showResult(`❌ No match for "${password}"`, 'error');
+            }
+        }
+    </script>
+</body>
+</html>

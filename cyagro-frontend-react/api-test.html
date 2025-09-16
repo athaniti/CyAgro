@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test CyAgro API Connection</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 5px; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+        .loading { background-color: #fff3cd; border-color: #ffeaa7; color: #856404; }
+        button { padding: 10px 15px; margin: 5px; border: none; border-radius: 3px; cursor: pointer; }
+        .btn-primary { background-color: #007bff; color: white; }
+        pre { background-color: #f8f9fa; padding: 10px; border-radius: 3px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>CyAgro API Connection Test</h1>
+    
+    <div class="test-section">
+        <h3>1. Test Basic Connection</h3>
+        <button class="btn-primary" onclick="testBasicConnection()">Test Root Endpoint</button>
+        <div id="basic-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>2. Test Cultivation Groups</h3>
+        <button class="btn-primary" onclick="testCultivationGroups()">Load Cultivation Groups</button>
+        <div id="groups-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>3. Test Regions</h3>
+        <button class="btn-primary" onclick="testRegions()">Load Regions</button>
+        <div id="regions-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>4. Test Login</h3>
+        <input type="text" id="username" placeholder="Username" value="testuser">
+        <input type="password" id="password" placeholder="Password" value="testpass">
+        <button class="btn-primary" onclick="testLogin()">Test Login</button>
+        <div id="login-result"></div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:8000';
+        const API_KEY = 'AIzaSyClzfrOzB818x55FASHvX4JuGQciR9lv7a';
+
+        function showResult(elementId, status, message, data = null) {
+            const element = document.getElementById(elementId);
+            element.className = `test-section ${status}`;
+            element.innerHTML = `
+                <p><strong>${status.toUpperCase()}:</strong> ${message}</p>
+                ${data ? `<pre>${JSON.stringify(data, null, 2)}</pre>` : ''}
+            `;
+        }
+
+        function showLoading(elementId, message) {
+            const element = document.getElementById(elementId);
+            element.className = 'test-section loading';
+            element.innerHTML = `<p><strong>LOADING:</strong> ${message}</p>`;
+        }
+
+        async function testBasicConnection() {
+            showLoading('basic-result', 'Testing basic connection...');
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/`, {
+                    method: 'GET',
+                    headers: {
+                        'X-API-Key': API_KEY,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    showResult('basic-result', 'success', 'Connection successful!', data);
+                } else {
+                    showResult('basic-result', 'error', `HTTP ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                showResult('basic-result', 'error', error.message);
+            }
+        }
+
+        async function testCultivationGroups() {
+            showLoading('groups-result', 'Loading cultivation groups...');
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/groups`, {
+                    method: 'GET',
+                    headers: {
+                        'X-API-Key': API_KEY,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    showResult('groups-result', 'success', `Loaded ${data.length} cultivation groups`, data);
+                } else {
+                    const errorData = await response.text();
+                    showResult('groups-result', 'error', `HTTP ${response.status}: ${response.statusText}`, errorData);
+                }
+            } catch (error) {
+                showResult('groups-result', 'error', error.message);
+            }
+        }
+
+        async function testRegions() {
+            showLoading('regions-result', 'Loading regions...');
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/regions`, {
+                    method: 'GET',
+                    headers: {
+                        'X-API-Key': API_KEY,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    showResult('regions-result', 'success', `Loaded ${data.length} regions`, data);
+                } else {
+                    const errorData = await response.text();
+                    showResult('regions-result', 'error', `HTTP ${response.status}: ${response.statusText}`, errorData);
+                }
+            } catch (error) {
+                showResult('regions-result', 'error', error.message);
+            }
+        }
+
+        async function testLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            showLoading('login-result', 'Testing login...');
+            
+            try {
+                const formData = new FormData();
+                formData.append('username', username);
+                formData.append('password', password);
+
+                const response = await fetch(`${API_BASE_URL}/login`, {
+                    method: 'POST',
+                    headers: {
+                        'X-API-Key': API_KEY,
+                    },
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    showResult('login-result', 'success', 'Login successful!', data);
+                } else {
+                    const errorData = await response.text();
+                    showResult('login-result', 'error', `HTTP ${response.status}: ${response.statusText}`, errorData);
+                }
+            } catch (error) {
+                showResult('login-result', 'error', error.message);
+            }
+        }
+
+        // Auto-test basic connection on page load
+        window.onload = function() {
+            testBasicConnection();
+        };
+    </script>
+</body>
+</html>

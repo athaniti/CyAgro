@@ -17,7 +17,7 @@
   <button mat-stroked-button type="button" (click)="clear()">Καθαρισμός</button>
 </form>
 
-<table mat-table [dataSource]="harmfuls" class="mat-elevation-z8 modern-table full-width-table">
+<table mat-table [dataSource]="varieties" class="mat-elevation-z8 modern-table full-width-table">
   <ng-container matColumnDef="id">
     <th mat-header-cell *matHeaderCellDef>ID</th>
     <td mat-cell *matCellDef="let r">{{r.id}}</td>
