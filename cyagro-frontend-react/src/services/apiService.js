@@ -52,7 +52,7 @@ class ApiService {
   // Authentication methods
   async login(credentials) {
     const formData = new FormData();
-    formData.append('username', credentials.email || credentials.username);
+    formData.append('username', credentials.username);
     formData.append('password', credentials.password);
 
     const response = await fetch(`${this.baseURL}/login`, {

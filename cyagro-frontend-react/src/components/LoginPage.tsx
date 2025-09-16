@@ -6,7 +6,7 @@ import { Card, CardHeader, CardContent, CardDescription, CardTitle } from "./ui/
 import apiService from "../services/apiService";
 
 export default function LoginPage({ onLogin }) {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -19,7 +19,7 @@ export default function LoginPage({ onLogin }) {
     try {
       // Try to login with FastAPI
       const response = await apiService.login({
-        email: email,
+        username: username,
         password: password
       });
 
@@ -27,8 +27,8 @@ export default function LoginPage({ onLogin }) {
       const user = response.user;
       const userData = {
         fullName: `${user.first_name} ${user.last_name}`,
-        email: user.email,
-        uniqueCode: user.username,
+  email: user.email,
+  uniqueCode: user.username,
         idNumber: user.id_number,
         phone: user.phone,
         hasProfile: user.has_profile // Use the has_profile field from API
@@ -76,13 +76,13 @@ export default function LoginPage({ onLogin }) {
               )}
               
               <div className="space-y-2">
-                <Label htmlFor="email">Ηλεκτρονικό Ταχυδρομείο</Label>
+                <Label htmlFor="username">Όνομα Χρήστη</Label>
                 <Input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="example@email.com"
+                  id="username"
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="π.χ. petros.iakovou"
                   required
                 />
               </div>
