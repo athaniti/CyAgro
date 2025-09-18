@@ -4,7 +4,7 @@ from passlib.context import CryptContext
 from . import models, schemas
 from typing import Optional
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 
 # Generic CRUD Operations
 def get_all(db: Session, model):
@@ -64,9 +64,9 @@ def create_user(db: Session, user: schemas.UserCreate):
 def authenticate_user(db: Session, username: str, password: str):
     user = get_user_by_username(db, username)
     if not user:
-        return False
+        return None
     if not pwd_context.verify(password, user.password_hash):
-        return False
+        return None
     return user
 
 def update_user_profile(db: Session, user_id: int, user_update: schemas.UserUpdate):

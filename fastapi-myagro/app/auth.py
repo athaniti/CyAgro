@@ -7,7 +7,7 @@ SECRET_KEY = settings.secret_key
 ALGORITHM = settings.algorithm
 ACCESS_TOKEN_EXPIRE_MINUTES = settings.access_token_expire_minutes
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 
 # mock users (με hashed password)
 fake_users_db = {
@@ -25,6 +25,9 @@ fake_users_db = {
 
 def verify_password(plain, hashed):
     return pwd_context.verify(plain, hashed)
+
+def get_password_hash(password):
+    return pwd_context.hash(password)
 
 def authenticate_user(username: str, password: str):
     user = fake_users_db.get(username)

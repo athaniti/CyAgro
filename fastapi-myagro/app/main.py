@@ -266,22 +266,10 @@ def delete_harmful_cause(hc_id: int, db: Session = Depends(get_db)):
 
 @app.post("/login")
 def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
-    # Try database authentication first
     user = crud.authenticate_user(db, form_data.username, form_data.password)
     if not user:
-        # Fallback to old auth for backwards compatibility
-        user = authenticate_user(form_data.username, form_data.password)
-        if not user:
-            raise HTTPException(status_code=400, detail="Invalid credentials")
-        # For old auth, return token with username
-        access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-        token = create_access_token(
-            data={"sub": user["username"]},
-            expires_delta=access_token_expires
-        )
-        return {"access_token": token, "token_type": "bearer"}
-    
-    # For database user, return token with username and user info
+        raise HTTPException(status_code=400, detail="Invalid credentials")
+
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     token = create_access_token(
         data={"sub": user.username},
