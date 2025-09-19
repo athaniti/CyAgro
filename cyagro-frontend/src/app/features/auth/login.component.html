@@ -1,24 +1,83 @@
-<div style="display:flex; justify-content:center; margin-top:80px;">
-    <mat-card style="width:360px; padding:24px;">
-      <h2>Login</h2>
-  
-      <form [formGroup]="form" (ngSubmit)="login()" style="display:flex; flex-direction:column; gap:16px;">
-        <mat-form-field appearance="outline">
-          <mat-label>Username</mat-label>
-          <input matInput formControlName="username">
-        </mat-form-field>
-  
-        <mat-form-field appearance="outline">
-          <mat-label>Password</mat-label>
-          <input matInput type="password" formControlName="password">
-        </mat-form-field>
-  
-        <button mat-raised-button color="primary" type="submit">Login</button>
-      </form>
-  
-      <div *ngIf="errorMsg" style="color:red; margin-top:8px;">
-        {{errorMsg}}
+<div class="login-container">
+  <div class="login-card modern-card">
+    <div class="login-header">
+      <h2>🌱 Σύνδεση στο CyAgro</h2>
+      <p>Εισάγετε τα στοιχεία σας για να συνδεθείτε</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="login()" class="login-form" novalidate>
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Όνομα Χρήστη</mat-label>
+        <input 
+          matInput 
+          formControlName="username" 
+          required
+          autocomplete="username"
+          [attr.aria-describedby]="form.get('username')?.errors ? 'username-error' : null">
+        <mat-icon matPrefix>person</mat-icon>
+        <mat-error *ngIf="form.get('username')?.errors?.['required']">
+          Το όνομα χρήστη είναι υποχρεωτικό
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Κωδικός Πρόσβασης</mat-label>
+        <input 
+          matInput 
+          [type]="hidePassword ? 'password' : 'text'" 
+          formControlName="password" 
+          required
+          autocomplete="current-password"
+          [attr.aria-describedby]="form.get('password')?.errors ? 'password-error' : null">
+        <mat-icon matPrefix>lock</mat-icon>
+        <button 
+          mat-icon-button 
+          matSuffix 
+          type="button"
+          (click)="hidePassword = !hidePassword"
+          [attr.aria-label]="hidePassword ? 'Εμφάνιση κωδικού' : 'Απόκρυψη κωδικού'"
+          [attr.aria-pressed]="!hidePassword">
+          <mat-icon>{{hidePassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('password')?.errors?.['required']">
+          Ο κωδικός πρόσβασης είναι υποχρεωτικός
+        </mat-error>
+        <mat-error *ngIf="form.get('password')?.errors?.['minlength']">
+          Ο κωδικός πρέπει να έχει τουλάχιστον 4 χαρακτήρες
+        </mat-error>
+      </mat-form-field>
+
+      <div class="form-actions">
+        <button 
+          mat-raised-button 
+          color="primary" 
+          type="submit" 
+          class="w-100 login-button"
+          [disabled]="form.invalid || isLoading"
+          [attr.aria-describedby]="errorMsg ? 'login-error' : null">
+          <mat-icon *ngIf="isLoading">hourglass_empty</mat-icon>
+          <span>{{ isLoading ? 'Σύνδεση...' : 'Σύνδεση' }}</span>
+        </button>
       </div>
-    </mat-card>
+
+      <div 
+        *ngIf="errorMsg" 
+        class="error-message"
+        id="login-error"
+        role="alert"
+        aria-live="polite">
+        <mat-icon>error</mat-icon>
+        <span>{{ errorMsg }}</span>
+      </div>
+    </form>
+
+    <div class="login-footer">
+      <p class="text-center">
+        <small>Δεν θυμάστε τον κωδικό σας; 
+          <a href="#" class="forgot-password-link">Επαναφορά κωδικού</a>
+        </small>
+      </p>
+    </div>
   </div>
+</div>
   

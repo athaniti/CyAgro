@@ -1,58 +1,203 @@
-<h2>Ομάδες Καλλιεργειών</h2>
-
-<form [formGroup]="form" (ngSubmit)="submit()" style="display:grid; gap:12px; grid-template-columns: repeat(2, minmax(220px,1fr)); max-width:800px;">
-  <mat-form-field appearance="outline">
-    <mat-label>Όνομα</mat-label>
-    <input matInput formControlName="name" required>
-  </mat-form-field>
-
-  <mat-form-field appearance="outline">
-    <mat-label>Κωδικός</mat-label>
-    <input matInput formControlName="code" required>
-  </mat-form-field>
-
-  <mat-form-field appearance="outline">
-    <mat-label>Λογιστικός Κωδ.</mat-label>
-    <input matInput formControlName="accounting_code">
-  </mat-form-field>
-
-  <mat-form-field appearance="outline">
-    <mat-label>Κωδικός ΚΟΑΠ</mat-label>
-    <input matInput formControlName="koap_code">
-  </mat-form-field>
-
-  <div style="grid-column: 1 / -1; display:flex; gap:8px;">
-    <button mat-raised-button color="primary" type="submit">
-      {{ form.value.id ? 'Ενημέρωση' : 'Προσθήκη' }}
+<div class="page-header">
+  <h2>
+    <mat-icon>eco</mat-icon>
+    Ομάδες Καλλιεργειών
+  </h2>
+  <div class="header-actions">
+    <button mat-raised-button color="primary" (click)="clear()" [disabled]="isLoading">
+      <mat-icon>add</mat-icon>
+      Νέα Ομάδα
     </button>
-    <button mat-stroked-button type="button" (click)="clear()">Καθαρισμός</button>
   </div>
-</form>
+</div>
 
-<table mat-table [dataSource]="groups" class="mat-elevation-z8 modern-table" style="margin-top:24px; width:100%; max-width:900px;">
-  <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef>ID</th>
-    <td mat-cell *matCellDef="let r">{{r.id}}</td>
-  </ng-container>
+<div class="form-container">
+  <h3 class="mb-md">
+    {{ form.value.id ? 'Επεξεργασία Ομάδας' : 'Προσθήκη Νέας Ομάδας' }}
+  </h3>
+  
+  <form [formGroup]="form" (ngSubmit)="submit()" class="cultivation-form" novalidate>
+    <div class="form-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Όνομα Ομάδας *</mat-label>
+        <input 
+          matInput 
+          formControlName="name" 
+          required
+          placeholder="π.χ. Δημητριακά"
+          [attr.aria-describedby]="form.get('name')?.errors ? 'name-error' : null">
+        <mat-icon matPrefix>label</mat-icon>
+        <mat-error *ngIf="form.get('name')?.errors?.['required']">
+          Το όνομα της ομάδας είναι υποχρεωτικό
+        </mat-error>
+        <mat-error *ngIf="form.get('name')?.errors?.['minlength']">
+          Το όνομα πρέπει να έχει τουλάχιστον 2 χαρακτήρες
+        </mat-error>
+      </mat-form-field>
 
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef>Όνομα</th>
-    <td mat-cell *matCellDef="let r">{{r.name}}</td>
-  </ng-container>
+      <mat-form-field appearance="outline">
+        <mat-label>Κωδικός *</mat-label>
+        <input 
+          matInput 
+          formControlName="code" 
+          required
+          placeholder="π.χ. DIM001"
+          [attr.aria-describedby]="form.get('code')?.errors ? 'code-error' : null">
+        <mat-icon matPrefix>tag</mat-icon>
+        <mat-error *ngIf="form.get('code')?.errors?.['required']">
+          Ο κωδικός είναι υποχρεωτικός
+        </mat-error>
+        <mat-error *ngIf="form.get('code')?.errors?.['minlength']">
+          Ο κωδικός πρέπει να έχει τουλάχιστον 3 χαρακτήρες
+        </mat-error>
+      </mat-form-field>
 
-  <ng-container matColumnDef="code">
-    <th mat-header-cell *matHeaderCellDef>Κωδικός</th>
-    <td mat-cell *matCellDef="let r">{{r.code}}</td>
-  </ng-container>
+      <mat-form-field appearance="outline">
+        <mat-label>Λογιστικός Κωδικός</mat-label>
+        <input 
+          matInput 
+          formControlName="accounting_code"
+          placeholder="π.χ. 501.001">
+        <mat-icon matPrefix>account_balance</mat-icon>
+        <mat-hint>Προαιρετικό πεδίο για λογιστική καταχώρηση</mat-hint>
+      </mat-form-field>
 
-  <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef>Ενέργειες</th>
-    <td mat-cell *matCellDef="let r">
-      <button mat-icon-button color="primary" (click)="edit(r)" title="Edit"><mat-icon>edit</mat-icon></button>
-      <button mat-icon-button color="warn" (click)="delete(r.id)" title="Delete"><mat-icon>delete</mat-icon></button>
-    </td>
-  </ng-container>
+      <mat-form-field appearance="outline">
+        <mat-label>Κωδικός ΚΟΑΠ</mat-label>
+        <input 
+          matInput 
+          formControlName="koap_code"
+          placeholder="π.χ. 10.1.1">
+        <mat-icon matPrefix>business</mat-icon>
+        <mat-hint>Κωδικός Κλαδικής Ονοματολογίας Αγροτικών Προϊόντων</mat-hint>
+      </mat-form-field>
+    </div>
 
-  <tr mat-header-row *matHeaderRowDef="displayed"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayed;"></tr>
-</table>
+    <div class="form-actions">
+      <button 
+        mat-raised-button 
+        color="primary" 
+        type="submit"
+        [disabled]="form.invalid || isLoading"
+        class="submit-button">
+        <mat-icon *ngIf="isLoading">hourglass_empty</mat-icon>
+        <mat-icon *ngIf="!isLoading">{{ form.value.id ? 'edit' : 'add' }}</mat-icon>
+        <span>{{ isLoading ? 'Επεξεργασία...' : (form.value.id ? 'Ενημέρωση' : 'Προσθήκη') }}</span>
+      </button>
+      
+      <button 
+        mat-stroked-button 
+        type="button" 
+        (click)="clear()"
+        [disabled]="isLoading"
+        class="clear-button">
+        <mat-icon>clear</mat-icon>
+        Καθαρισμός
+      </button>
+    </div>
+
+    <div 
+      *ngIf="errorMsg" 
+      class="error-message"
+      role="alert"
+      aria-live="polite">
+      <mat-icon>error</mat-icon>
+      <span>{{ errorMsg }}</span>
+    </div>
+
+    <div 
+      *ngIf="successMsg" 
+      class="success-message"
+      role="alert"
+      aria-live="polite">
+      <mat-icon>check_circle</mat-icon>
+      <span>{{ successMsg }}</span>
+    </div>
+  </form>
+</div>
+
+<div class="table-container">
+  <div class="table-header">
+    <h3>Καταγεγραμμένες Ομάδες</h3>
+    <div class="table-actions">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Αναζήτηση</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Αναζήτηση ομάδων...">
+        <mat-icon matPrefix>search</mat-icon>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="table-wrapper" [class.loading-overlay]="isLoading">
+    <table mat-table [dataSource]="dataSource" class="modern-table w-100">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>ID</th>
+        <td mat-cell *matCellDef="let row" data-label="ID">{{ row.id }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Όνομα</th>
+        <td mat-cell *matCellDef="let row" data-label="Όνομα">
+          <strong>{{ row.name }}</strong>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="code">
+        <th mat-header-cell *matHeaderCellDef>Κωδικός</th>
+        <td mat-cell *matCellDef="let row" data-label="Κωδικός">
+          <code>{{ row.code }}</code>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="accounting_code">
+        <th mat-header-cell *matHeaderCellDef>Λογιστικός</th>
+        <td mat-cell *matCellDef="let row" data-label="Λογιστικός">
+          {{ row.accounting_code || '-' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="koap_code">
+        <th mat-header-cell *matHeaderCellDef>ΚΟΑΠ</th>
+        <td mat-cell *matCellDef="let row" data-label="ΚΟΑΠ">
+          {{ row.koap_code || '-' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Ενέργειες</th>
+        <td mat-cell *matCellDef="let row" data-label="Ενέργειες">
+          <div class="action-buttons">
+            <button 
+              mat-icon-button 
+              color="primary" 
+              (click)="edit(row)" 
+              [disabled]="isLoading"
+              [attr.aria-label]="'Επεξεργασία ' + row.name"
+              title="Επεξεργασία">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button 
+              mat-icon-button 
+              color="warn" 
+              (click)="confirmDelete(row)" 
+              [disabled]="isLoading"
+              [attr.aria-label]="'Διαγραφή ' + row.name"
+              title="Διαγραφή">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" 
+          [class.editing-row]="form.value.id === row.id"></tr>
+    </table>
+
+    <div *ngIf="dataSource.data.length === 0 && !isLoading" class="no-data">
+      <mat-icon>eco</mat-icon>
+      <h4>Δεν υπάρχουν ομάδες καλλιεργειών</h4>
+      <p>Προσθέστε την πρώτη ομάδα χρησιμοποιώντας τη φόρμα παραπάνω.</p>
+    </div>
+  </div>
+</div>

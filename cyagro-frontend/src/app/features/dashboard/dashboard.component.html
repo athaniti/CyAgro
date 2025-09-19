@@ -1,0 +1,211 @@
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h1>
+      <mat-icon>dashboard</mat-icon>
+      Κεντρικό Πίνακα Ελέγχου CyAgro
+    </h1>
+    <p>Καλώς ήρθατε στη διαχείριση της γεωργικής σας επιχείρησης</p>
+  </div>
+
+  <!-- Quick Stats -->
+  <div class="stats-grid">
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-content">
+          <div class="stat-icon">
+            <mat-icon>eco</mat-icon>
+          </div>
+          <div class="stat-details">
+            <h3>{{ totalGroups }}</h3>
+            <p>Ομάδες Καλλιεργειών</p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-content">
+          <div class="stat-icon">
+            <mat-icon>agriculture</mat-icon>
+          </div>
+          <div class="stat-details">
+            <h3>{{ totalCultivations }}</h3>
+            <p>Καλλιέργειες</p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-content">
+          <div class="stat-icon">
+            <mat-icon>local_florist</mat-icon>
+          </div>
+          <div class="stat-details">
+            <h3>{{ totalVarieties }}</h3>
+            <p>Ποικιλίες</p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-content">
+          <div class="stat-icon">
+            <mat-icon>bug_report</mat-icon>
+          </div>
+          <div class="stat-details">
+            <h3>{{ totalHarmfulCauses }}</h3>
+            <p>Ζημιογόνα Αίτια</p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Main Navigation Cards -->
+  <div class="navigation-section">
+    <h2>
+      <mat-icon>menu</mat-icon>
+      Κύριες Λειτουργίες
+    </h2>
+    
+    <div class="nav-cards-grid">
+      <mat-card class="nav-card" routerLink="/groups" [attr.aria-label]="'Πλοήγηση στις Ομάδες Καλλιεργειών'">
+        <mat-card-header>
+          <div mat-card-avatar>
+            <mat-icon>eco</mat-icon>
+          </div>
+          <mat-card-title>Ομάδες Καλλιεργειών</mat-card-title>
+          <mat-card-subtitle>Διαχείριση και οργάνωση ομάδων</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Δημιουργήστε και διαχειριστείτε ομάδες καλλιεργειών, προσθέστε κωδικούς και λογιστικές πληροφορίες.</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="primary">
+            <mat-icon>arrow_forward</mat-icon>
+            Διαχείριση
+          </button>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="nav-card" routerLink="/cultivations" [attr.aria-label]="'Πλοήγηση στις Καλλιέργειες'">
+        <mat-card-header>
+          <div mat-card-avatar>
+            <mat-icon>agriculture</mat-icon>
+          </div>
+          <mat-card-title>Καλλιέργειες</mat-card-title>
+          <mat-card-subtitle>Καταγραφή καλλιεργητικών δραστηριοτήτων</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Παρακολουθήστε και καταγράψτε όλες τις καλλιεργητικές σας δραστηριότητες και εργασίες.</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="primary">
+            <mat-icon>arrow_forward</mat-icon>
+            Διαχείριση
+          </button>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="nav-card" routerLink="/varieties" [attr.aria-label]="'Πλοήγηση στις Ποικιλίες'">
+        <mat-card-header>
+          <div mat-card-avatar>
+            <mat-icon>local_florist</mat-icon>
+          </div>
+          <mat-card-title>Ποικιλίες</mat-card-title>
+          <mat-card-subtitle>Κατάλογος ποικιλιών φυτών</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Διαχειριστείτε τις διάφορες ποικιλίες φυτών που καλλιεργείτε με αναλυτικές πληροφορίες.</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="primary">
+            <mat-icon>arrow_forward</mat-icon>
+            Διαχείριση
+          </button>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="nav-card" routerLink="/harmful-causes" [attr.aria-label]="'Πλοήγηση στα Ζημιογόνα Αίτια'">
+        <mat-card-header>
+          <div mat-card-avatar>
+            <mat-icon>bug_report</mat-icon>
+          </div>
+          <mat-card-title>Ζημιογόνα Αίτια</mat-card-title>
+          <mat-card-subtitle>Παρακολούθηση απειλών καλλιεργειών</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Καταγράψτε και παρακολουθήστε ασθένειες, έντομα και άλλους παράγοντες που επηρεάζουν τις καλλιέργειες.</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="primary">
+            <mat-icon>arrow_forward</mat-icon>
+            Διαχείριση
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="quick-actions-section">
+    <h2>
+      <mat-icon>flash_on</mat-icon>
+      Γρήγορες Ενέργειες
+    </h2>
+    
+    <div class="quick-actions-grid">
+      <button mat-stroked-button class="quick-action-btn" routerLink="/groups">
+        <mat-icon>add</mat-icon>
+        Νέα Ομάδα
+      </button>
+      
+      <button mat-stroked-button class="quick-action-btn" routerLink="/cultivations">
+        <mat-icon>add</mat-icon>
+        Νέα Καλλιέργεια
+      </button>
+      
+      <button mat-stroked-button class="quick-action-btn" routerLink="/varieties">
+        <mat-icon>add</mat-icon>
+        Νέα Ποικιλία
+      </button>
+      
+      <button mat-stroked-button class="quick-action-btn" routerLink="/harmful-causes">
+        <mat-icon>add</mat-icon>
+        Νέο Ζημιογόνο
+      </button>
+    </div>
+  </div>
+
+  <!-- Recent Activity -->
+  <div class="recent-activity-section">
+    <h2>
+      <mat-icon>history</mat-icon>
+      Πρόσφατη Δραστηριότητα
+    </h2>
+    
+    <mat-card class="activity-card">
+      <mat-card-content>
+        <div class="activity-item" *ngFor="let activity of recentActivities">
+          <div class="activity-icon">
+            <mat-icon [color]="activity.color">{{ activity.icon }}</mat-icon>
+          </div>
+          <div class="activity-details">
+            <p><strong>{{ activity.title }}</strong></p>
+            <small>{{ activity.timestamp | date:'short' }}</small>
+          </div>
+        </div>
+        
+        <div *ngIf="recentActivities.length === 0" class="no-activity">
+          <mat-icon>info</mat-icon>
+          <p>Δεν υπάρχει πρόσφατη δραστηριότητα</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

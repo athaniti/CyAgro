@@ -2,12 +2,31 @@
     <span class="logo">🌱 CyAgro</span>
     <span class="spacer"></span>
   
-    <a mat-button routerLink="/groups" routerLinkActive="active-link">Ομάδες</a>
-    <a mat-button routerLink="/cultivations" routerLinkActive="active-link">Καλλιέργειες</a>
-    <a mat-button routerLink="/varieties" routerLinkActive="active-link">Ποικιλίες</a>
-    <a mat-button routerLink="/harmful-causes" routerLinkActive="active-link">Ζημιογόνα</a>
+    <a mat-button routerLink="/dashboard" routerLinkActive="active-link">
+      <mat-icon>dashboard</mat-icon>
+      <span>Αρχική</span>
+    </a>
+    <a mat-button routerLink="/groups" routerLinkActive="active-link">
+      <mat-icon>eco</mat-icon>
+      <span>Ομάδες</span>
+    </a>
+    <a mat-button routerLink="/cultivations" routerLinkActive="active-link">
+      <mat-icon>agriculture</mat-icon>
+      <span>Καλλιέργειες</span>
+    </a>
+    <a mat-button routerLink="/varieties" routerLinkActive="active-link">
+      <mat-icon>local_florist</mat-icon>
+      <span>Ποικιλίες</span>
+    </a>
+    <a mat-button routerLink="/harmful-causes" routerLinkActive="active-link">
+      <mat-icon>bug_report</mat-icon>
+      <span>Ζημιογόνα</span>
+    </a>
   
-    <button mat-stroked-button color="accent" (click)="logout()">Logout</button>
+    <button mat-stroked-button color="accent" (click)="logout()" class="logout-btn">
+      <mat-icon>logout</mat-icon>
+      <span>Έξοδος</span>
+    </button>
   </mat-toolbar>
   
   <div class="main-container">
