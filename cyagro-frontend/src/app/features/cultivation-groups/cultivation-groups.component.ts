@@ -9,7 +9,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ApiService } from '../../core/services/api.service';
-import { BreadcrumbComponent, BreadcrumbItem } from '../../shared/breadcrumb/breadcrumb.component';
 
 @Component({
   selector: 'app-cultivation-groups',
@@ -17,8 +16,7 @@ import { BreadcrumbComponent, BreadcrumbItem } from '../../shared/breadcrumb/bre
   imports: [
     CommonModule, ReactiveFormsModule,
     MatTableModule, MatButtonModule, MatFormFieldModule, 
-    MatInputModule, MatIconModule, MatDialogModule, MatSnackBarModule,
-    BreadcrumbComponent
+    MatInputModule, MatIconModule, MatDialogModule, MatSnackBarModule
   ],
   templateUrl: './cultivation-groups.component.html',
   styleUrls: ['./cultivation-groups.component.scss']
@@ -34,10 +32,7 @@ export class CultivationGroupsComponent implements OnInit {
   isLoading = false;
   errorMsg = '';
   successMsg = '';
-
-  breadcrumbItems: BreadcrumbItem[] = [
-    { label: 'Ομάδες Καλλιεργειών', icon: 'eco' }
-  ];
+  showForm = false;
 
   form = this.fb.group({
     id: [null],
@@ -120,6 +115,7 @@ export class CultivationGroupsComponent implements OnInit {
   edit(row: any) { 
     this.form.patchValue(row);
     this.clearMessages();
+    this.showForm = true;
     // Scroll to form
     document.querySelector('.form-container')?.scrollIntoView({ 
       behavior: 'smooth', 
@@ -128,6 +124,13 @@ export class CultivationGroupsComponent implements OnInit {
   }
 
   clear() { 
+    this.form.reset();
+    this.clearMessages();
+    this.showForm = true;
+  }
+
+  hideForm() {
+    this.showForm = false;
     this.form.reset();
     this.clearMessages();
   }

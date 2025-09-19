@@ -1,3 +1,25 @@
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+
+  h3 {
+    margin: 0;
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .close-btn {
+    color: var(--text-secondary);
+    
+    &:hover {
+      color: var(--text-primary);
+      background: rgba(0, 0, 0, 0.04);
+    }
+  }
+}
+
 .cultivation-form {
   display: flex;
   flex-direction: column;

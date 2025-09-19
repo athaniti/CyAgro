@@ -1,16 +1,56 @@
-<h2>Ζημιογόνα</h2>
+<div class="page-header">
+  <h2>
+    <mat-icon>bug_report</mat-icon>
+    Ζημιογόνα
+  </h2>
+  <div class="header-actions">
+    <button mat-raised-button color="primary" (click)="clear()">
+      <mat-icon>add</mat-icon>
+      Νέο Ζημιογόνο
+    </button>
+  </div>
+</div>
 
-<form [formGroup]="form" (ngSubmit)="submit()" style="display:flex; gap:12px; flex-wrap:wrap; max-width:600px;">
-  <mat-form-field>
-    <mat-label>Όνομα</mat-label>
-    <input matInput formControlName="name">
-  </mat-form-field>
+<div class="form-container" *ngIf="showForm">
+  <div class="form-header">
+    <h3>
+      {{ form.value.id ? 'Επεξεργασία Ζημιογόνου' : 'Προσθήκη Νέου Ζημιογόνου' }}
+    </h3>
+    <button mat-icon-button (click)="hideForm()" class="close-btn">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
 
-  <button mat-raised-button color="primary" type="submit">
-    {{ form.value.id ? 'Ενημέρωση' : 'Προσθήκη' }}
-  </button>
-  <button mat-stroked-button type="button" (click)="clear()">Καθαρισμός</button>
-</form>
+  <form [formGroup]="form" (ngSubmit)="submit()" class="harmful-cause-form" novalidate>
+    <div class="form-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Όνομα Ζημιογόνου Αιτίου *</mat-label>
+        <input 
+          matInput 
+          formControlName="name" 
+          required
+          placeholder="π.χ. Σκώρος"
+          [attr.aria-describedby]="form.get('name')?.errors ? 'name-error' : null">
+        <mat-icon matPrefix>bug_report</mat-icon>
+        <mat-error *ngIf="form.get('name')?.errors?.['required']">
+          Το όνομα του ζημιογόνου αιτίου είναι υποχρεωτικό
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-actions">
+      <button 
+        mat-raised-button 
+        color="primary" 
+        type="submit" 
+        [disabled]="form.invalid || isLoading"
+        class="submit-button">
+        <mat-icon>{{ form.value.id ? 'update' : 'add' }}</mat-icon>
+        {{ form.value.id ? 'Ενημέρωση' : 'Προσθήκη' }}
+      </button>
+    </div>
+  </form>
+</div>
 
 <table mat-table [dataSource]="harmfuls" class="mat-elevation-z8 modern-table full-width-table">
   <ng-container matColumnDef="id">

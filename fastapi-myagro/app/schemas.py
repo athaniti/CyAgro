@@ -3,6 +3,46 @@ from typing import Optional, List
 from datetime import date, datetime
 from decimal import Decimal
 
+# -------- Users --------
+class UserBase(BaseModel):
+    email: EmailStr
+    username: str
+    first_name: str
+    last_name: str
+    phone: Optional[str] = None
+    id_number: Optional[str] = None
+    address: Optional[str] = None
+    city: Optional[str] = None
+    postal_code: Optional[str] = None
+    role: Optional[str] = "farmer"
+
+class UserCreate(UserBase):
+    password: str
+
+class UserLogin(BaseModel):
+    username: str
+    password: str
+
+class UserRead(UserBase):
+    id: int
+    is_active: bool
+    has_profile: bool
+    created_at: datetime
+    updated_at: datetime
+    
+    class Config:
+        from_attributes = True
+
+class UserUpdate(BaseModel):
+    email: Optional[EmailStr] = None
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    phone: Optional[str] = None
+    address: Optional[str] = None
+    city: Optional[str] = None
+    postal_code: Optional[str] = None
+    is_active: Optional[bool] = None
+
 # -------- Departments --------
 class DepartmentBase(BaseModel):
     name: str
@@ -107,47 +147,6 @@ class HarmfulCauseRead(HarmfulCauseBase):
 
 
 # ================== NEW SCHEMAS FOR EXTENDED FUNCTIONALITY ==================
-
-# -------- Users --------
-class UserBase(BaseModel):
-    email: str
-    username: str
-    first_name: str
-    last_name: str
-    phone: Optional[str] = None
-    id_number: Optional[str] = None
-    address: Optional[str] = None
-    city: Optional[str] = None
-    postal_code: Optional[str] = None
-    is_active: bool = True
-    has_profile: bool = False
-    role: str = "farmer"
-
-class UserCreate(UserBase):
-    password: str
-
-class UserUpdate(BaseModel):
-    email: Optional[str] = None
-    first_name: Optional[str] = None
-    last_name: Optional[str] = None
-    phone: Optional[str] = None
-    id_number: Optional[str] = None
-    address: Optional[str] = None
-    city: Optional[str] = None
-    postal_code: Optional[str] = None
-    has_profile: Optional[bool] = None
-
-class UserRead(UserBase):
-    id: int
-    created_at: datetime
-    updated_at: datetime
-    class Config:
-        from_attributes = True
-
-class UserLogin(BaseModel):
-    username: str
-    password: str
-
 
 # -------- Regions --------
 class RegionBase(BaseModel):

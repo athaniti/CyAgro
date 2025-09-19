@@ -52,7 +52,7 @@ app = FastAPI(
     
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[settings.frontend_url, settings.angular_url, settings.angular_url2],
+    allow_origins=["*"],  # Allow all origins for development
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

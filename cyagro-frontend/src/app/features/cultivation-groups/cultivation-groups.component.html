@@ -11,10 +11,15 @@
   </div>
 </div>
 
-<div class="form-container">
-  <h3 class="mb-md">
-    {{ form.value.id ? 'Επεξεργασία Ομάδας' : 'Προσθήκη Νέας Ομάδας' }}
-  </h3>
+<div class="form-container" *ngIf="showForm">
+  <div class="form-header">
+    <h3 class="mb-md">
+      {{ form.value.id ? 'Επεξεργασία Ομάδας' : 'Προσθήκη Νέας Ομάδας' }}
+    </h3>
+    <button mat-icon-button (click)="hideForm()" class="close-btn">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
   
   <form [formGroup]="form" (ngSubmit)="submit()" class="cultivation-form" novalidate>
     <div class="form-grid">

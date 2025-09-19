@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "cyagro-frontend"
+		},
+		{
+			"path": "cyagro-frontend-react"
+		},
+		{
+			"path": "fastapi-myagro"
+		}
+	]
+}

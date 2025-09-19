@@ -1,31 +1,94 @@
-<h2>Καλλιέργειες</h2>
+<div class="page-header">
+  <h2>
+    <mat-icon>agriculture</mat-icon>
+    Καλλιέργειες
+  </h2>
+  <div class="header-actions">
+    <button mat-raised-button color="primary" (click)="clear()">
+      <mat-icon>add</mat-icon>
+      Νέα Καλλιέργεια
+    </button>
+  </div>
+</div>
 
-<form [formGroup]="form" (ngSubmit)="submit()" style="display:flex; gap:12px; flex-wrap:wrap; max-width:800px;">
-  <mat-form-field>
-    <mat-label>Όνομα</mat-label>
-    <input matInput formControlName="name">
-  </mat-form-field>
+  <div class="form-section" *ngIf="showForm">
+    <div class="form-header">
+      <h3>{{ form.value.id ? 'Επεξεργασία' : 'Νέα' }} Καλλιέργεια</h3>
+      <button mat-icon-button (click)="hideForm()" class="close-button">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  <div class="form-header">
+    <h3>
+      {{ form.value.id ? 'Επεξεργασία Καλλιέργειας' : 'Προσθήκη Νέας Καλλιέργειας' }}
+    </h3>
+    <button mat-icon-button (click)="hideForm()" class="close-btn">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
 
-  <mat-form-field>
-    <mat-label>Κωδικός</mat-label>
-    <input matInput formControlName="code">
-  </mat-form-field>
+  <form [formGroup]="form" (ngSubmit)="submit()" class="cultivation-form" novalidate>
+    <div class="form-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Όνομα Καλλιέργειας *</mat-label>
+        <input 
+          matInput 
+          formControlName="name" 
+          required
+          placeholder="π.χ. Σιτάρι"
+          [attr.aria-describedby]="form.get('name')?.errors ? 'name-error' : null">
+        <mat-icon matPrefix>agriculture</mat-icon>
+        <mat-error *ngIf="form.get('name')?.errors?.['required']">
+          Το όνομα της καλλιέργειας είναι υποχρεωτικό
+        </mat-error>
+      </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Τύπος</mat-label>
-    <input matInput formControlName="type">
-  </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Κωδικός *</mat-label>
+        <input 
+          matInput 
+          formControlName="code" 
+          required
+          placeholder="π.χ. WHEAT001"
+          [attr.aria-describedby]="form.get('code')?.errors ? 'code-error' : null">
+        <mat-icon matPrefix>tag</mat-icon>
+        <mat-error *ngIf="form.get('code')?.errors?.['required']">
+          Ο κωδικός είναι υποχρεωτικός
+        </mat-error>
+      </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Κάλυψη</mat-label>
-    <input matInput formControlName="coverage">
-  </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Τύπος</mat-label>
+        <mat-select formControlName="type">
+          <mat-option value="annual">Ετήσια</mat-option>
+          <mat-option value="perennial">Πολυετής</mat-option>
+        </mat-select>
+        <mat-icon matPrefix>category</mat-icon>
+      </mat-form-field>
 
-  <button mat-raised-button color="primary" type="submit">
-    {{ form.value.id ? 'Ενημέρωση' : 'Προσθήκη' }}
-  </button>
-  <button mat-stroked-button type="button" (click)="clear()">Καθαρισμός</button>
-</form>
+      <mat-form-field appearance="outline">
+        <mat-label>Κάλυψη</mat-label>
+        <mat-select formControlName="coverage">
+          <mat-option value="full">Πλήρης</mat-option>
+          <mat-option value="basic">Βασική</mat-option>
+        </mat-select>
+        <mat-icon matPrefix>shield</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="form-actions">
+      <button 
+        mat-raised-button 
+        color="primary" 
+        type="submit" 
+        [disabled]="form.invalid || isLoading"
+        class="submit-button">
+        <mat-icon>{{ form.value.id ? 'update' : 'add' }}</mat-icon>
+        {{ form.value.id ? 'Ενημέρωση' : 'Προσθήκη' }}
+      </button>
+    </div>
+  </form>
+  </div>
 
 <table mat-table [dataSource]="cultivations" class="mat-elevation-z8 modern-table full-width-table">
   <ng-container matColumnDef="id">
